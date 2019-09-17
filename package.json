@@ -1,0 +1,30 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
+  },
+  "dependencies": {
+    "atob": "^2.1.2",
+    "btoa": "^1.2.1",
+    "buffer": "^5.4.2",
+    "expo": "^34.0.1",
+    "expo-random": "^6.0.0",
+    "gun": "git+https://github.com/GoodDollar/gun.git#rnsupport",
+    "isomorphic-webcrypto": "latest",
+    "react": "16.8.3",
+    "react-dom": "^16.8.6",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-34.0.0.tar.gz",
+    "react-native-securerandom": "^1.0.0-rc.0",
+    "react-native-web": "^0.11.4",
+    "react-native-webview": "^5.12.1",
+    "text-encoding": "^0.7.0"
+  },
+  "devDependencies": {
+    "babel-preset-expo": "^6.0.0"
+  },
+  "private": true
+}
