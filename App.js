@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import crypto from "isomorphic-webcrypto";
 import { Gun, SEA } from "gun";
 
 export default function App() {
   let [state, setState] = useState({ decrypted: "", pair: "", random: "" });
   const runTests = async () => {
     try {
-      console.log("running testdsss", crypto);
+      console.log("running tests", crypto);
+      await crypto.ensureSecure().catch(e => console.log(e));
+
       crypto.subtle
         .generateKey(
           {
@@ -26,9 +27,9 @@ export default function App() {
         .catch(function(err) {
           console.error(err);
         });
-      // await test();
-      // await test2();
-      await testTypes();
+      await test();
+      await test2();
+      // await testTypes();
     } catch (e) {
       console.log("Test failed", e);
     }
@@ -209,7 +210,7 @@ export default function App() {
   };
   return (
     <View style={styles.container}>
-      <Text>Openx up App.js to start working on your app!</Text>
+      <Text>Open up App.js to start working on your app!</Text>
       <Text>Random: {state.random && state.random.toString()}</Text>
       <Text>SEA Pair: {state.pair && JSON.stringify(state.pair)}</Text>
       <Text>Decrypted: {state.decrypted && state.decrypted}</Text>
