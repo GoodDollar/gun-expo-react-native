@@ -1,12 +1,20 @@
+import crypto from "isomorphic-webcrypto";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import { Gun, SEA } from "gun";
+import Gun from "gun";
+import SEA from "gun/sea";
 
 export default function App() {
-  let [state, setState] = useState({ decrypted: "", pair: "", random: "" });
+  let [state, setState] = useState({
+    decrypted: "",
+    pair: "",
+    random: "",
+    userCreated: false,
+    user: ""
+  });
   const runTests = async () => {
     try {
-      console.log("running tests", crypto);
+      console.log("running tests", Gun, crypto);
       await crypto.ensureSecure().catch(e => console.log(e));
 
       crypto.subtle
@@ -29,10 +37,26 @@ export default function App() {
         });
       await test();
       await test2();
+      await testUser();
       // await testTypes();
     } catch (e) {
       console.log("Test failed", e);
     }
+  };
+
+  const testUser = async () => {
+    const gun = Gun();
+    const user = gun.user();
+    console.log("Gun user object:", { user });
+    const username = Math.random() + "x";
+    user.create(username, "x", r => {
+      console.log("Gun user created result:", r);
+      setState(prev => ({ ...prev, userCreated: "true" }));
+      user.auth(username, "x", async userres => {
+        console.log("Gun user auth result:", userres);
+        setState(prev => ({ ...prev, user: user.is.pub }));
+      });
+    });
   };
   const test = async () => {
     console.log("ok", { SEA, Gun, Buffer, atob, btoa });
@@ -215,6 +239,9 @@ export default function App() {
       <Text>SEA Pair: {state.pair && JSON.stringify(state.pair)}</Text>
       <Text>Decrypted: {state.decrypted && state.decrypted}</Text>
       <Text>Shared: {state.sharedDecrypted && state.sharedDecrypted}</Text>
+      <Text>User created: {state.userCreated}</Text>
+      <Text>User loggedin: {state.user}</Text>
+
       <Button onPress={runTests} title={"Run SEA tests"} />
     </View>
   );
