@@ -59,8 +59,6 @@ export default function App() {
     });
   };
   const test = async () => {
-    console.log("ok", { SEA, Gun, Buffer, atob, btoa });
-
     await crypto.ensureSecure();
 
     const array = new Uint8Array(10);
